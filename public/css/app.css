@@ -10644,3 +10644,15 @@ a.text-dark:focus {
   }
 }
 
+.breadcrumb {
+  background: none;
+}
+
+.swal2-confirm {
+  background: #265a31 !important;
+}
+
+.swal2-cancel {
+  background: #e3342f !important;
+}
+

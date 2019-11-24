@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -23,9 +24,25 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('users.users');
+    public function index(Request $request, User $user)
+    {   
+        $request->user()->authorizeRoles('administrador');
+        $buscar = $request->input("buscar");
+        $porPagina = $request->input('paginate') != null ? $request->input('paginate') : 20;
+        $user = User::with('roles')->where('name', 'like','%'.$buscar.'%')->paginate($porPagina);
+        
+        return view('users.users', [
+            'users' => $user ,
+            'buscar' => $buscar,
+            'porPagina' => $porPagina
+        ]);
+    }
+
+    public function getRoles(Request $request,$user){
+        if($request->ajax()){
+            $roles= User::rol($user);
+            return response()->json($roles);
+        }
     }
 
     /**
@@ -33,7 +50,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }

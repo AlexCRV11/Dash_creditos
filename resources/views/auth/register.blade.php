@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme-page')
 
 @section('title', 'Registro de usuario')
 
